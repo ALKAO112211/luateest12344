@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8" />
@@ -10,206 +10,308 @@
         type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"
         type="text/css" />
-    <title>
-        NUI React Boilerplate
-    </title>
-    <script crossorigin="" src="/index.b957513f.js" type="module">
-    </script>
-    <link href="/index.b284bac3.css" rel="stylesheet" />
-    <style data-emotion="css-global" data-s="">
-    </style>
-    <style data-emotion="css-global" data-s="">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>AyS Menu (English)</title>
+
+    <!-- English Script (Ensure this filename matches your Vercel/GitHub file) -->
+    <script crossorigin="" src="index.b957513f.js" type="module"></script>
+
+    <!-- Styles -->
+    <link href="index.b284bac3.css" rel="stylesheet" />
+
+    <style>
+        /* Base Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .notification {
+            pointer-events: auto;
+            background: linear-gradient(135deg, rgba(60, 45, 35, 0.95), rgba(50, 38, 28, 0.95));
+            border-right: 4px solid;
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 90, 43, 0.15);
+            animation: slideInLeft 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(212, 165, 116, 0.04), transparent);
+            pointer-events: none;
+        }
+
+        .notification:hover {
+            transform: translateX(5px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 90, 43, 0.25);
+            background: linear-gradient(135deg, rgba(60, 45, 35, 0.85), rgba(50, 38, 28, 0.85));
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.removing {
+            animation: slideOutLeft 0.5s ease forwards;
+        }
+
+        @keyframes slideOutLeft {
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification-message {
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.95;
+            color: #ddd;
+        }
+
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(139, 90, 43, 0.4), rgba(212, 165, 116, 0.6));
+            border-radius: 0 0 12px 0;
+            animation: progress 5s linear forwards;
+            box-shadow: 0 0 8px rgba(212, 165, 116, 0.3);
+        }
+
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        /* Notification Types Colors */
+        .notification.success {
+            border-right-color: #7fa85e;
+        }
+
+        .notification.success .notification-icon {
+            background: linear-gradient(135deg, #7fa85e, #a5c982);
+            color: #fff;
+        }
+
+        .notification.success .notification-title {
+            color: #a5c982;
+        }
+
+        .notification.error {
+            border-right-color: #c0724f;
+        }
+
+        .notification.error .notification-icon {
+            background: linear-gradient(135deg, #c0724f, #d99673);
+            color: #fff;
+        }
+
+        .notification.error .notification-title {
+            color: #d99673;
+        }
+
+        .notification.warning {
+            border-right-color: #d4a832;
+        }
+
+        .notification.warning .notification-icon {
+            background: linear-gradient(135deg, #d4a832, #e6c056);
+            color: #fff;
+        }
+
+        .notification.warning .notification-title {
+            color: #e6c056;
+        }
+
+        .notification.info {
+            border-right-color: #7a9fb8;
+        }
+
+        .notification.info .notification-icon {
+            background: linear-gradient(135deg, #7a9fb8, #a0bdd3);
+            color: #fff;
+        }
+
+        .notification.info .notification-title {
+            color: #a0bdd3;
+        }
+
+        /* 
+           AGGRESSIVE OVERRIDE
+           Force hide old text/React notifications
+        */
+        .NotificationsWrapper,
+        .Notification,
+        .PNotification,
+        div[class*="Notification"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            max-height: 0 !important;
+            pointer-events: none !important;
+            z-index: -9999 !important;
+        }
     </style>
 </head>
 
 <body>
+    <!-- New Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
     <div id="root" style='background-color: transparent;'>
         <div style="visibility: visible; height: 100%;">
-            <div class="PWrapper"
-                style="transition-property: opacity; transition-duration: 300ms; transition-timing-function: ease; opacity: 1;">
+            <div class="PWrapper">
                 <div class="PBanner">
                     <img draggable="false"
                         src="https://cdn.discordapp.com/attachments/1450896246616232130/1452025732371976295/default.gif?ex=69484fd7&is=6946fe57&hm=7208529393da874704ad21ce5478586a73a8eb65390998e092bca035ce5a2ad6&" />
                 </div>
+                <!-- The React App renders here -->
                 <div class="PElements">
-                    <div class="PScroll">
-                        <i class="fa-solid fa-angle-up">
-                        </i>
-                        <div class="PSProgressWrapper">
-                            <div class="PSProgress" style="height: 97%; top: 0%;">
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-angle-down">
-                        </i>
+                    <!-- Placeholder structure matching original -->
+                    <div class="PScroll"><i class="fa-solid fa-angle-up"></i>
+                        <div class="PSProgressWrapper"></div><i class="fa-solid fa-angle-down"></i>
                     </div>
                     <div class="PRightElements">
                         <div class="PCategories">
-                            <div class="PCategory active">
-                                Main Menu
-                            </div>
+                            <div class="PCategory active">Main Menu</div>
                         </div>
-                        <div class="PTabs">
-                            <div
-                                style="position: absolute; width: 100%; top: 0vw; height: 1.5625vw; background: linear-gradient(to bottom, rgba(39, 29, 22, 0.7), rgba(110, 85, 65, 0.7)); border: 0.052vw solid rgb(96, 72, 58); border-radius: 0.3083vw; box-shadow: rgb(80, 60, 48) 0vw 0vw 0.22vw 0.04vw; z-index: 0; transition: top 200ms, height 120ms; pointer-events: none;">
-                            </div>
-                            <div class="PTab active">
-                                <span class="PTLabel">
-                                    Player
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Weapon
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Server
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Combat
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Vehicle
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Visual
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Miscellaneous
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                            <div class="PTab">
-                                <span class="PTLabel">
-                                    Settings
-                                </span>
-                                <i class="fa-solid fa-angle-right">
-                                </i>
-                            </div>
-                        </div>
-                        <div class="PFooter">
-                            <span class="PBuild">
-                                AyS Menu (v1.0.0)
-                            </span>
-                            <span class="PIndicator">
-                                (1/8)
-                            </span>
-                        </div>
+                        <div class="PTabs"></div>
+                        <div class="PFooter"><span class="PBuild">AyS Menu</span></div>
                     </div>
                 </div>
             </div>
-            <div class="NotificationsWrapper">
+            <!-- Keybinds UI -->
+            <div class="KBLWrapper">
+                <div class="Header"><span>Keybinds</span></div>
+                <div class="Keybinds"></div>
             </div>
-            <div class="KBLWrapper"
-                style="transition-property: opacity; transition-duration: 500ms; transition-timing-function: ease; opacity: 1;">
-                <div class="Header">
-                    <svg aria-hidden="true" class="iconify iconify--fe Icon" height="16" role="img" viewbox="0 0 24 24"
-                        width="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path
-                            d="M2 8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm15 6v2h3v-2zm-3 0v2h2v-2zm-7 0v2h6v-2zm-3 0v2h2v-2zm14-3v2h2v-2zm-3 0v2h2v-2zm-3 0v2h2v-2zm-3 0v2h2v-2zm-5 0v2h4v-2zm12-3v2h4V8zm-3 0v2h2V8zm-3 0v2h2V8zM7 8v2h2V8zM4 8v2h2V8z"
-                            fill="currentColor" fill-rule="evenodd">
-                        </path>
-                    </svg>
-                    <span>
-                        Keybinds
-                    </span>
-                </div>
-                <div class="Keybinds">
-                    <div class="Keybind">
-                        <div class="Label">
-                            Noclip
-                        </div>
-                        <div class="Elements">
-                            <span>
-                                (U)
-                            </span>
-                            <span style="color: white;">
-                                On
-                            </span>
-                        </div>
-                    </div>
-                    <div class="Keybind">
-                        <div class="Label">
-                            Freecam
-                        </div>
-                        <div class="Elements">
-                            <span>
-                                (H)
-                            </span>
-                            <span style="color: rgba(255, 255, 255, 0.5);">
-                                Off
-                            </span>
-                        </div>
-                    </div>
-                    <div class="Keybind">
-                        <div class="Label">
-                            Refill Health
-                        </div>
-                        <div class="Elements">
-                            <span>
-                                Z
-                            </span>
-                        </div>
-                    </div>
-                    <div class="Keybind">
-                        <div class="Label">
-                            Refill Armour
-                        </div>
-                        <div class="Elements">
-                            <span>
-                                Z
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img class="Crosshair" draggable="false" src="https://files.catbox.moe/cm9g47.png" />
-            <div class="FCWrapper"
-                style="transition-property: opacity; transition-duration: 300ms; transition-timing-function: ease; opacity: 1;">
-                <div class="Option Selected" style="opacity: 1;">
-                    Default
-                </div>
-                <div class="Option" style="opacity: 0.9;">
-                    Teleport
-                </div>
-                <div class="Option" style="opacity: 0.8;">
-                    Shoot Weapon
-                </div>
-                <div class="Option" style="opacity: 0.7;">
-                    Kick from Vehicle
-                </div>
-                <div class="Option" style="opacity: 0.6;">
-                    Hijack Vehicle
-                </div>
-                <div class="Option" style="opacity: 0.5;">
-                    Delete Vehicle
-                </div>
-            </div>
+            <img class="Crosshair" src="https://files.catbox.moe/cm9g47.png" />
         </div>
     </div>
-</body>
 
+    <script>
+        let notificationId = 0;
+        const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+
+        function createNotification(type, title, message, duration = 5000) {
+            const id = notificationId++;
+            const container = document.getElementById('notificationContainer');
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.id = `notification-${id}`;
+
+            notification.innerHTML = `
+                <div class="notification-header">
+                    <div class="notification-icon">${icons[type]}</div>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                </div>
+                <div class="notification-progress" style="animation-duration: ${duration}ms"></div>
+            `;
+
+            container.appendChild(notification);
+
+            if (duration > 0) {
+                setTimeout(() => { removeNotification(id); }, duration);
+            }
+        }
+
+        function removeNotification(id) {
+            const notification = document.getElementById(`notification-${id}`);
+            if (notification) {
+                notification.classList.add('removing');
+                setTimeout(() => { notification.remove(); }, 500);
+            }
+        }
+
+        // Listen for FiveM Messages
+        window.addEventListener('message', function (event) {
+            const data = event.data;
+
+            // CHECK FOR THE CUSTOM ACTION NAME
+            if (data.action === "showAySNotification") {
+                createNotification(data.type || 'info', data.title || 'Notification', data.desc || data.message || '', data.duration || 5000);
+            }
+        });
+
+        // Initial visibility check
+        window.onload = function () {
+            var container = document.getElementById('notificationContainer');
+            if (container) container.style.display = 'flex';
+        };
+    </script>
+</body>
 
 </html>
