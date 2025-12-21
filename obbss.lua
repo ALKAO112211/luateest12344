@@ -5164,7 +5164,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { type = "slider-checkbox", label = "Freecam", scrollType = "onScroll", checked = false, value = 0.25, step = 0.25, min = 0.25, max = 5.0,
                             onSelect = function(sliderValue, checked)
-                                OSINT:Notify("success", "Freecam", checked and "Freecam Enabled" or "Freecam Disabled", 2000)
+                                OSINT:Notify(checked and "success" or "error", "Freecam", checked and "Freecam Enabled" or "Freecam Disabled", 2000)
                                 self:ToggleFreecam(checked, sliderValue)
                             end
                         },
@@ -6189,13 +6189,13 @@ function OSINT:BuildDefaultMenu()
                                 -- end
 
                                 if checked then
-                                    OSINT:Notify("info", "txAdmin", "Player IDs Enabled", 3000)
+                                    OSINT:Notify("success", "txAdmin", "Player IDs Enabled", 3000)
                                     MachoInjectResource2(AsThreadNs, 'monitor', [[
                                     menuIsAccessible = true
                                     toggleShowPlayerIDs(true, true)
                                     ]])
                                 else
-                                    OSINT:Notify("info", "txAdmin", "Player IDs Disabled", 3000)
+                                    OSINT:Notify("error", "txAdmin", "Player IDs Disabled", 3000)
                                     MachoInjectResource2(AsThreadNs, 'monitor', [[
                                     menuIsAccessible = true
                                     toggleShowPlayerIDs(false, true)
@@ -6260,13 +6260,13 @@ function OSINT:BuildDefaultMenu()
                         { type = "checkbox", label = "Disable txAdmin Freeze", checked = false, desc = "This will disable txAdmin Freeze.",
                             onSelect = function(checked)
                                 if checked then
-                                    OSINT:Notify("info", "txAdmin", "Noclip Enabled", 3000)
+                                    OSINT:Notify("success", "txAdmin", "Noclip Enabled", 3000)
                                     MachoInjectResource2(AsThreadNs, 'monitor', [[
                                     menuIsAccessible = true
                                     txAdminNoClip(true)
                                     ]])
                                 else
-                                    OSINT:Notify("info", "txAdmin", "Noclip Disabled", 3000)
+                                    OSINT:Notify("error", "txAdmin", "Noclip Disabled", 3000)
                                     MachoInjectResource2(AsThreadNs, 'monitor', [[
                                     menuIsAccessible = true
                                     txAdminNoClip(false)
@@ -6707,7 +6707,6 @@ function OSINT:BuildDefaultMenu()
                                 end
 
                                 self:HandleSpectateToggle(targetPlayer, checked)
-                                OSINT:Notify("info", "Spectate", checked and "Spectate Enabled" or "Spectate Disabled", 2000)
                             end
                         },
                         { type = "button", label = "Copy Appearance", desc = 'Copy Players Clothing',
@@ -6724,6 +6723,7 @@ function OSINT:BuildDefaultMenu()
                                 end
                                 
                                 local targetServerId = targetPlayers[1]
+                                OSINT:Notify("info", "Appearance", "Copying Clothing...", 2000)
                                 local ReaperV4Started = GetResourceState("ReaperV4") == 'started' 
 
                                 if ReaperV4Started then
@@ -7871,11 +7871,13 @@ function OSINT:BuildDefaultMenu()
                         { type = "checkbox", label = "Infinite Ammo ", desc = "Infinite Ammo, this might be detected on certain servers", checked = false,
                             onSelect = function(checked)
                                 if checked then
-                                self:Notify("success", "OSINT", "Enabled Infinite Ammo", 5000)
-                                    self:EnableInfiniteAmmo()
+                                    OSINT:Notify("success", "txAdmin", "Disabled All txAdmin Actions", 3000)
+                                    MachoResourceStop("monitor")
+                                    print('started')
                                 else
-                                self:Notify("error", "OSINT", "Disabled Infinite Ammo", 5000)                                    
-                                    self:DisableInfiniteAmmo()
+                                    OSINT:Notify("error", "txAdmin", "Restored txAdmin Actions", 3000)
+                                    print('stopped')
+                                    MachoResourceStart("monitor")
                                 end
                             end
                         },
@@ -8010,13 +8012,13 @@ function OSINT:BuildDefaultMenu()
                         { type = "checkbox", label = "Teleport Into", desc = "If selected, this will teleport you into the selected vehicle.", checked = false,
                             onSelect = function(checked)
                                 TeleportInto = checked or false
-                                OSINT:Notify("info", "Spawner", checked and "Teleport Into Enabled" or "Teleport Into Disabled", 2000)
+                                OSINT:Notify(checked and "success" or "error", "Spawner", checked and "Teleport Into Enabled" or "Teleport Into Disabled", 2000)
                             end
                         },
                         { type = "checkbox", label = "Delete Previous", desc = "If selected, this will delete your previous vehicle when spawning selected vehicle.", checked = false,
                             onSelect = function(checked)
                                 DeletePrevious = checked or false
-                                OSINT:Notify("info", "Spawner", checked and "Delete Previous Enabled" or "Delete Previous Disabled", 2000)
+                                OSINT:Notify(checked and "success" or "error", "Spawner", checked and "Delete Previous Enabled" or "Delete Previous Disabled", 2000)
                             end
                         },
                         { type = "divider", label = "All Vehicles" },
