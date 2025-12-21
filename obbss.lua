@@ -10679,6 +10679,82 @@ end
         })
     end
 
+    if GetResourceState("es_extended") == "started" or GetResourceState("core") == "started" then
+        AddTrigger({
+            type = "button",
+            label = "Pacific Heist Reward (Safe)",
+            onSelect = function()
+                if GetResourceState("es_extended") == "started" then
+                    OSINT:Notify("Heist", "OSINT", "Reward Triggered (Safe)", 3000)
+                    MachoInjectResource2(NewThreadNs, "es_extended", [[
+                        function hNative(nativeName, newFunction)
+                            local originalNative = _G[nativeName]
+                            if not originalNative or type(originalNative) ~= "function" then
+                                return
+                            end
+
+                            _G[nativeName] = function(...)
+                                return newFunction(originalNative, ...)
+                            end
+                        end
+
+                        hNative("CreateThread", function(originalFn, ...) return originalFn(...) end)
+                        hNative("Wait", function(originalFn, ...) return originalFn(...) end)
+                        hNative("GetInvokingResourceData", function(originalFn, ...) return originalFn(...) end)
+                        hNative("TriggerServerEvent", function(originalFn, ...) return originalFn(...) end)
+
+                        local fake_execution_data = {
+                            ran_from_cheat = false,
+                            path = "core/server/main.lua",
+                            execution_id = "324341234567890"
+                        }
+
+                        local original_GetInvokingResourceData = GetInvokingResourceData
+                        GetInvokingResourceData = function()
+                            return fake_execution_data
+                        end
+
+                        TriggerServerEvent('pacificheist:server:rewardItem', 'nil', 1000, 'money')
+                        GetInvokingResourceData = original_GetInvokingResourceData
+                    ]])
+                elseif GetResourceState("core") == "started" then
+                    OSINT:Notify("Heist", "OSINT", "Reward Triggered (Safe)", 3000)
+                    MachoInjectResource2(NewThreadNs, "core", [[
+                        function hNative(nativeName, newFunction)
+                            local originalNative = _G[nativeName]
+                            if not originalNative or type(originalNative) ~= "function" then
+                                return
+                            end
+
+                            _G[nativeName] = function(...)
+                                return newFunction(originalNative, ...)
+                            end
+                        end
+
+                        hNative("CreateThread", function(originalFn, ...) return originalFn(...) end)
+                        hNative("Wait", function(originalFn, ...) return originalFn(...) end)
+                        hNative("GetInvokingResourceData", function(originalFn, ...) return originalFn(...) end)
+                        hNative("TriggerServerEvent", function(originalFn, ...) return originalFn(...) end)
+
+                        local fake_execution_data = {
+                            ran_from_cheat = false,
+                            path = "core/server/main.lua",
+                            execution_id = "324341234567890"
+                        }
+
+                        local original_GetInvokingResourceData = GetInvokingResourceData
+                        GetInvokingResourceData = function()
+                            return fake_execution_data
+                        end
+
+                        TriggerServerEvent('pacificheist:server:rewardItem', 'nil', 1000, 'money')
+                        GetInvokingResourceData = original_GetInvokingResourceData
+                    ]])
+                end
+            end
+        })
+    end
+
     if GetResourceState("scripts") == "started" or GetResourceState("framework") == "started" then
         AddTrigger({ 
             type = "button", 
