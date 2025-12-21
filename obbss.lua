@@ -4779,6 +4779,7 @@ function OSINT:BuildDefaultMenu()
                             checked = false, 
                             desc = "This will make your player invisible.",
                             onSelect = function(checked)
+                                OSINT:Notify(checked and "success" or "error", "Invisibility", checked and "Invisibility Enabled" or "Invisibility Disabled", 2000)
                                 if checked then
                                     self:EnableInvisibility()
                                 else
@@ -4797,7 +4798,7 @@ function OSINT:BuildDefaultMenu()
                             min = 0.25,
                             max = 5.0,
                             onSelect = function(sliderValue, checked)
-                                OSINT:Notify("success", "Noclip", checked and "Noclip Enabled" or "Noclip Disabled", 2000)
+                                OSINT:Notify(checked and "success" or "error", "Noclip", checked and "Noclip Enabled" or "Noclip Disabled", 2000)
                                 if checked then
                                     if not FirstInjectionPassed then
                                         OSINT:Notify("info", "OSINT", "Initializing... Please wait!", 1000)
@@ -5291,7 +5292,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { type = "checkbox", label = "Super Jump", checked = false,
                             onSelect = function(checked)
-                                OSINT:Notify("info", "Super Jump", checked and "Super Jump Enabled" or "Super Jump Disabled", 2000)
+                                OSINT:Notify(checked and "success" or "error", "Super Jump", checked and "Super Jump Enabled" or "Super Jump Disabled", 2000)
                                 local WaveDih = GetResourceState("WaveShield") == "started"
 
                                 local function decode(tbl)
@@ -9024,7 +9025,7 @@ function OSINT:BuildDefaultMenu()
                                     end
                                 else
                                     if waveStarted then
-                                        OSINT:Notify("success", "OSINT", "Easy Handling Off", 3000)
+                                        OSINT:Notify("error", "OSINT", "Easy Handling Off", 3000)
                                         MachoInjectResourceRaw("WaveShield", [[
                                             NvGhJkLpOiUy = false
                                             local UyTrBnMvCxZl = SetVehicleGravityAmount
@@ -9048,7 +9049,7 @@ function OSINT:BuildDefaultMenu()
                                                 PlMnBvCxZaSd(veh, false)
                                             end
                                         ]])
-                                        OSINT:Notify("success", "OSINT", "Easy Handling Off (Fallback)", 3000)
+                                        OSINT:Notify("error", "OSINT", "Easy Handling Off (Fallback)", 3000)
                                     end
                                 end
                             end
@@ -9528,8 +9529,9 @@ function OSINT:BuildDefaultMenu()
                     label = "Teleport Menu",
                     tabs = {
 
-                        { type = "button", label = "Waypoint",
-    onSelect = function()
+                        { type = "button", label = "Teleport to Waypoint",
+                            onSelect = function()
+                                OSINT:Notify("success", "Teleport", "Teleported to Waypoint", 2000)
         local waveShieldStart = GetResourceState("WaveShield") == 'started'
         local ReaperStart = GetResourceState("ReaperV4") == 'started'
 
@@ -9594,6 +9596,7 @@ local teleportCode = [[
 
                         { type = "button", label = "FIB Building",
                             onSelect = function()
+                            OSINT:Notify("success", "Teleport", "Teleported to FIB Building", 2000)
                             local waveShieldStart = GetResourceState("WaveShield") == 'started'
                             local ReaperStart = GetResourceState("ReaperV4") == 'started'
                             if waveShieldStart then
@@ -9650,6 +9653,7 @@ local teleportCode = [[
                         },
                         { type = "button", label = "Mission Row PD",
                             onSelect = function()
+                            OSINT:Notify("success", "Teleport", "Teleported to Mission Row PD", 2000)
                             local waveShieldStart = GetResourceState("WaveShield") == 'started'
                             local ReaperStart = GetResourceState("ReaperV4") == 'started'
 
@@ -9707,6 +9711,7 @@ local teleportCode = [[
                         },
                         { type = "button", label = "Pillbox Hospital",
                             onSelect = function()
+                            OSINT:Notify("success", "Teleport", "Teleported to Pillbox Hospital", 2000)
                             local waveShieldStart = GetResourceState("WaveShield") == 'started'
                             local ReaperStart = GetResourceState("ReaperV4") == 'started'
 
@@ -9764,6 +9769,7 @@ local teleportCode = [[
                         },
                         { type = "button", label = "Grove Street",
                         onSelect = function()
+                        OSINT:Notify("success", "Teleport", "Teleported to Grove Street", 2000)
                         local waveShieldStart = GetResourceState("WaveShield") == 'started'
                         local ReaperStart = GetResourceState("ReaperV4") == 'started'
 
@@ -9821,6 +9827,7 @@ local teleportCode = [[
                         },
                         { type = "button", label = "Legion Square",
                             onSelect = function()
+                            OSINT:Notify("success", "Teleport", "Teleported to Legion Square", 2000)
                             local waveShieldStart = GetResourceState("WaveShield") == 'started'
                             local ReaperStart = GetResourceState("ReaperV4") == 'started'
 
