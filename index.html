@@ -13,25 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <title>AyS Menu (English)</title>
 
-    <!-- English Script (CRITICAL: Restored) -->
+    <!-- English Script (Restored) -->
     <script crossorigin="" src="index.b957513f.js" type="module"></script>
 
-    <!-- Styles (CRITICAL: Restored) -->
+    <!-- Styles (Restored) -->
     <link href="index.b284bac3.css" rel="stylesheet" />
 
     <style>
-        /* RESET & TRANSPARENCY FIX */
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: transparent !important;
-            overflow: hidden;
-            /* Prevent scrollbars */
-        }
-
         /* Base Notification Styles */
         .notification-container {
             position: fixed;
@@ -45,6 +33,15 @@
             flex-direction: column;
             gap: 12px;
             pointer-events: none;
+            scrollbar-width: none;
+            /* Hide scrollbar Firefox */
+            -ms-overflow-style: none;
+            /* Hide scrollbar IE/Edge */
+        }
+
+        /* Hide scrollbar Webkit */
+        .notification-container::-webkit-scrollbar {
+            display: none;
         }
 
         .notification {
@@ -321,7 +318,13 @@
         // Initial visibility check
         window.onload = function () {
             var container = document.getElementById('notificationContainer');
-            if (container) container.style.display = 'flex';
+            if (container) {
+                container.style.display = 'flex';
+                // Force transparent background again in JS just in case
+                container.style.backgroundColor = 'transparent';
+            }
+            document.body.style.backgroundColor = 'transparent';
+            document.documentElement.style.backgroundColor = 'transparent';
         };
     </script>
 </body>
