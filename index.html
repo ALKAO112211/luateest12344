@@ -12,201 +12,226 @@
         type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <title>AyS Menu (English)</title>
-    width: 320px;
-    max-height: 90vh;
-    overflow-y: auto;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    pointer-events: none;
-    }
 
-    .notification {
-    pointer-events: auto;
-    background: linear-gradient(135deg, rgba(60, 45, 35, 0.95), rgba(50, 38, 28, 0.95));
-    border-right: 4px solid;
-    border-radius: 12px;
-    padding: 14px 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 90, 43, 0.15);
-    animation: slideInLeft 0.5s ease;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(15px);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    direction: ltr;
-    text-align: left;
-    }
+    <!-- English Script (CRITICAL: Restored) -->
+    <script crossorigin="" src="index.b957513f.js" type="module"></script>
 
-    .notification::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(212, 165, 116, 0.04), transparent);
-    pointer-events: none;
-    }
+    <!-- Styles (CRITICAL: Restored) -->
+    <link href="index.b284bac3.css" rel="stylesheet" />
 
-    .notification:hover {
-    transform: translateX(5px) scale(1.02);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 90, 43, 0.25);
-    background: linear-gradient(135deg, rgba(60, 45, 35, 0.85), rgba(50, 38, 28, 0.85));
-    }
+    <style>
+        /* RESET & TRANSPARENCY FIX */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: transparent !important;
+            overflow: hidden;
+            /* Prevent scrollbars */
+        }
 
-    @keyframes slideInLeft {
-    from {
-    transform: translateX(-100%);
-    opacity: 0;
-    }
+        /* Base Notification Styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
 
-    to {
-    transform: translateX(0);
-    opacity: 1;
-    }
-    }
+        .notification {
+            pointer-events: auto;
+            background: linear-gradient(135deg, rgba(60, 45, 35, 0.95), rgba(50, 38, 28, 0.95));
+            border-right: 4px solid;
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 90, 43, 0.15);
+            animation: slideInLeft 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
 
-    .notification.removing {
-    animation: slideOutLeft 0.5s ease forwards;
-    }
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(212, 165, 116, 0.04), transparent);
+            pointer-events: none;
+        }
 
-    @keyframes slideOutLeft {
-    to {
-    transform: translateX(-100%);
-    opacity: 0;
-    }
-    }
+        .notification:hover {
+            transform: translateX(5px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 90, 43, 0.25);
+            background: linear-gradient(135deg, rgba(60, 45, 35, 0.85), rgba(50, 38, 28, 0.85));
+        }
 
-    .notification-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    }
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
 
-    .notification-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-    position: relative;
-    }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
 
-    .notification-content {
-    flex: 1;
-    }
+        .notification.removing {
+            animation: slideOutLeft 0.5s ease forwards;
+        }
 
-    .notification-title {
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 4px;
-    color: #fff;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
+        @keyframes slideOutLeft {
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
 
-    .notification-message {
-    font-size: 13px;
-    line-height: 1.5;
-    opacity: 0.95;
-    color: #ddd;
-    }
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .notification-progress {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, rgba(139, 90, 43, 0.4), rgba(212, 165, 116, 0.6));
-    border-radius: 0 0 12px 0;
-    animation: progress 5s linear forwards;
-    box-shadow: 0 0 8px rgba(212, 165, 116, 0.3);
-    }
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
 
-    @keyframes progress {
-    from {
-    width: 100%;
-    }
+        .notification-content {
+            flex: 1;
+        }
 
-    to {
-    width: 0%;
-    }
-    }
+        .notification-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
 
-    /* Notification Types Colors */
-    .notification.success {
-    border-right-color: #7fa85e;
-    }
+        .notification-message {
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.95;
+            color: #ddd;
+        }
 
-    .notification.success .notification-icon {
-    background: linear-gradient(135deg, #7fa85e, #a5c982);
-    color: #fff;
-    }
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(139, 90, 43, 0.4), rgba(212, 165, 116, 0.6));
+            border-radius: 0 0 12px 0;
+            animation: progress 5s linear forwards;
+            box-shadow: 0 0 8px rgba(212, 165, 116, 0.3);
+        }
 
-    .notification.success .notification-title {
-    color: #a5c982;
-    }
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
 
-    .notification.error {
-    border-right-color: #c0724f;
-    }
+            to {
+                width: 0%;
+            }
+        }
 
-    .notification.error .notification-icon {
-    background: linear-gradient(135deg, #c0724f, #d99673);
-    color: #fff;
-    }
+        /* Notification Types Colors */
+        .notification.success {
+            border-right-color: #7fa85e;
+        }
 
-    .notification.error .notification-title {
-    color: #d99673;
-    }
+        .notification.success .notification-icon {
+            background: linear-gradient(135deg, #7fa85e, #a5c982);
+            color: #fff;
+        }
 
-    .notification.warning {
-    border-right-color: #d4a832;
-    }
+        .notification.success .notification-title {
+            color: #a5c982;
+        }
 
-    .notification.warning .notification-icon {
-    background: linear-gradient(135deg, #d4a832, #e6c056);
-    color: #fff;
-    }
+        .notification.error {
+            border-right-color: #c0724f;
+        }
 
-    .notification.warning .notification-title {
-    color: #e6c056;
-    }
+        .notification.error .notification-icon {
+            background: linear-gradient(135deg, #c0724f, #d99673);
+            color: #fff;
+        }
 
-    .notification.info {
-    border-right-color: #7a9fb8;
-    }
+        .notification.error .notification-title {
+            color: #d99673;
+        }
 
-    .notification.info .notification-icon {
-    background: linear-gradient(135deg, #7a9fb8, #a0bdd3);
-    color: #fff;
-    }
+        .notification.warning {
+            border-right-color: #d4a832;
+        }
 
-    .notification.info .notification-title {
-    color: #a0bdd3;
-    }
+        .notification.warning .notification-icon {
+            background: linear-gradient(135deg, #d4a832, #e6c056);
+            color: #fff;
+        }
 
-    /*
-    AGGRESSIVE OVERRIDE
-    Force hide old text/React notifications
-    */
-    .NotificationsWrapper,
-    .Notification,
-    .PNotification,
-    div[class*="Notification"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    max-height: 0 !important;
-    pointer-events: none !important;
-    z-index: -9999 !important;
-    }
+        .notification.warning .notification-title {
+            color: #e6c056;
+        }
+
+        .notification.info {
+            border-right-color: #7a9fb8;
+        }
+
+        .notification.info .notification-icon {
+            background: linear-gradient(135deg, #7a9fb8, #a0bdd3);
+            color: #fff;
+        }
+
+        .notification.info .notification-title {
+            color: #a0bdd3;
+        }
+
+        /* 
+           AGGRESSIVE OVERRIDE
+           Force hide old text/React notifications
+        */
+        .NotificationsWrapper,
+        .Notification,
+        .PNotification,
+        div[class*="Notification"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            max-height: 0 !important;
+            pointer-events: none !important;
+            z-index: -9999 !important;
+        }
     </style>
 </head>
 
