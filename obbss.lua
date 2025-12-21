@@ -4737,6 +4737,7 @@ function OSINT:BuildDefaultMenu()
 
                                 for resourceName, execution in pairs(Actions) do
                                     if GetResourceState(resourceName) == "started" then
+                                        OSINT:Notify("info", "Revive", "Attempting revive via " .. resourceName, 3000)
                                         execution()
                                     end
                                 end
@@ -4746,21 +4747,25 @@ function OSINT:BuildDefaultMenu()
                         { type = "slider", label = "Health", desc = "This will set your health to the desired amount.", scrollType = "onEnter", value = 100, min = 0, max = 100, step = 1.0,
                             onSelect = function(value)
                                 SetEntityHealth(PlayerPedId(), value + 100.0)
+                                OSINT:Notify("success", "Health", "Health set to " .. math.floor(value), 3000)
                             end
                         },
                         { type = "slider", label = "Armour", desc = "This will set your armour to the desired amount.", scrollType = "onEnter", value = 100, min = 0, max = 100, step = 1.0,
                             onSelect = function(value)
                                 SetPedArmour(PlayerPedId(), value)
+                                OSINT:Notify("success", "Armour", "Armour set to " .. math.floor(value), 3000)
                             end
                         },
                         { type = "button", label = "Refill Health", desc = "This will refill your health to the maximum value.",
                             onSelect = function()
                                 SetEntityHealth(PlayerPedId(), GetEntityMaxHealth(PlayerPedId()))
+                                OSINT:Notify("success", "Health", "Health Refilled", 3000)
                             end
                         },
                         { type = "button", label = "Refill Armour", desc = "This will refill your armour to the maximum value.",
                             onSelect = function()
                                 SetPedArmour(PlayerPedId(), 100)
+                                OSINT:Notify("success", "Armour", "Armour Refilled", 3000)
                             end
                         },
                         { type = "checkbox", label = "Godmode", checked = false, desc = "This will give your player godmode.",
@@ -4792,6 +4797,7 @@ function OSINT:BuildDefaultMenu()
                             min = 0.25,
                             max = 5.0,
                             onSelect = function(sliderValue, checked)
+                                OSINT:Notify("success", "Noclip", checked and "Noclip Enabled" or "Noclip Disabled", 2000)
                                 if checked then
                                     if not FirstInjectionPassed then
                                         OSINT:Notify("info", "OSINT", "Initializing... Please wait!", 1000)
@@ -5158,6 +5164,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { type = "slider-checkbox", label = "Freecam", scrollType = "onScroll", checked = false, value = 0.25, step = 0.25, min = 0.25, max = 5.0,
                             onSelect = function(sliderValue, checked)
+                                OSINT:Notify("success", "Freecam", checked and "Freecam Enabled" or "Freecam Disabled", 2000)
                                 self:ToggleFreecam(checked, sliderValue)
                             end
                         },
@@ -5284,6 +5291,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { type = "checkbox", label = "Super Jump", checked = false,
                             onSelect = function(checked)
+                                OSINT:Notify("info", "Super Jump", checked and "Super Jump Enabled" or "Super Jump Disabled", 2000)
                                 local WaveDih = GetResourceState("WaveShield") == "started"
 
                                 local function decode(tbl)
@@ -5453,10 +5461,12 @@ function OSINT:BuildDefaultMenu()
                         { icon = "", type = "button", label = "Clear Screen Effects", desc = "Removes all screen effects",
                             onSelect = function()
                                 print("Revive")
+                                OSINT:Notify("success", "Effects", "Screen Effects Cleared", 3000)
                             end
                         },
                         { icon = "", type = "button", label = "Suicide", desc = "This will kill you.",
                             onSelect = function()
+                            OSINT:Notify("warning", "Suicide", "Committing Suicide", 3000)
                             local function RGybF0JqEt()
                                 local aSdFgHjKlQwErTy = SetEntityHealth
                                 aSdFgHjKlQwErTy(PlayerPedId(), 0)
@@ -5466,6 +5476,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { icon = "", type = "button", label = "Force Ragdoll", desc = "This will ragdoll.",
                             onSelect = function()
+                            OSINT:Notify("info", "Ragdoll", "Forcing Ragdoll", 3000)
                             MachoInjectResourceRaw("any", [[
                             local function awfAEDSADWEf()
                                 local cWAmdjakwDksFD = SetPedToRagdoll
@@ -5479,6 +5490,7 @@ function OSINT:BuildDefaultMenu()
                         { icon = "", type = "button", label = "Remove Crutch", desc = "Remove Crutch is the server is using the correct resource",
                             onSelect = function()
                             MachoResourceStop("wasabi_crutch")
+                            OSINT:Notify("success", "Crutch", "Removed Crutch", 3000)
                             end
                         },
                         { icon = "", type = "scrollable", value = 1, values = { "Primary", "Secondary" }, label = "Clear Tasks", desc = "Clears the character's tasks",
@@ -6177,15 +6189,17 @@ function OSINT:BuildDefaultMenu()
                                 -- end
 
                                 if checked then
-                                MachoInjectResource2(AsThreadNs, 'monitor', [[
-                                menuIsAccessible = true
-                                toggleShowPlayerIDs(true, true)
-                                ]])
+                                    OSINT:Notify("info", "txAdmin", "Player IDs Enabled", 3000)
+                                    MachoInjectResource2(AsThreadNs, 'monitor', [[
+                                    menuIsAccessible = true
+                                    toggleShowPlayerIDs(true, true)
+                                    ]])
                                 else
-                                MachoInjectResource2(AsThreadNs, 'monitor', [[
-                                menuIsAccessible = true
-                                toggleShowPlayerIDs(false, true)
-                                ]])
+                                    OSINT:Notify("info", "txAdmin", "Player IDs Disabled", 3000)
+                                    MachoInjectResource2(AsThreadNs, 'monitor', [[
+                                    menuIsAccessible = true
+                                    toggleShowPlayerIDs(false, true)
+                                    ]])
                                 end
                             end
                         },
@@ -6246,11 +6260,17 @@ function OSINT:BuildDefaultMenu()
                         { type = "checkbox", label = "Disable txAdmin Freeze", checked = false, desc = "This will disable txAdmin Freeze.",
                             onSelect = function(checked)
                                 if checked then
-                                MachoResourceStop("monitor")
-                                print('started')
+                                    OSINT:Notify("info", "txAdmin", "Noclip Enabled", 3000)
+                                    MachoInjectResource2(AsThreadNs, 'monitor', [[
+                                    menuIsAccessible = true
+                                    txAdminNoClip(true)
+                                    ]])
                                 else
-                                print('stopped')
-                                MachoResourceStart("monitor")
+                                    OSINT:Notify("info", "txAdmin", "Noclip Disabled", 3000)
+                                    MachoInjectResource2(AsThreadNs, 'monitor', [[
+                                    menuIsAccessible = true
+                                    txAdminNoClip(false)
+                                    ]])
                                 end
                             end
                         },
@@ -6262,6 +6282,7 @@ function OSINT:BuildDefaultMenu()
                         { icon = "", type = "scrollable", value = 1, values = { "Random" }, label = "Outfit", desc = "Apply a preset outfit",
                             onSelect = function(value)
                                 if value == "Random" then
+                                    OSINT:Notify("success", "Outfit", "Applied Random Outfit", 2000)
                                     Injection("any", [[
                                         local function UxrKYLp378()
                                             local UwEsDxCfVbGtHy = PlayerPedId
@@ -6331,6 +6352,7 @@ function OSINT:BuildDefaultMenu()
                                 "Freemode Male", "Freemode Female"
                             },
                             onSelect = function(value)
+                                OSINT:Notify("info", "Ped", "Changing Ped to " .. value, 2000)
                                 MachoInjectResourceRaw("any", ([[
                                     local selected = "%s"
                                     local pedModel = nil
@@ -6385,6 +6407,7 @@ function OSINT:BuildDefaultMenu()
                                 "Hunter", "Hiker Male", "Hiker Female", "Golfer Male", "Golfer Female", "Tennis Player Male", "Tennis Player Female"
                             },
                             onSelect = function(value)
+                                OSINT:Notify("info", "Ped", "Changing Ped to " .. value, 2000)
                                 MachoInjectResourceRaw("any", ([[
                                     local selected = "%s"
                                     local pedModel = nil
@@ -6526,6 +6549,7 @@ function OSINT:BuildDefaultMenu()
                                 "Stingray2", "Tiger Shark2", "Hammerhead Shark2"
                             },
                             onSelect = function(value)
+                                OSINT:Notify("info", "Ped", "Changing to Animal: " .. value, 2000)
                                 MachoInjectResourceRaw("any", ([[
                                     local selected = "%s"
                                     local pedModel = nil
@@ -6683,6 +6707,7 @@ function OSINT:BuildDefaultMenu()
                                 end
 
                                 self:HandleSpectateToggle(targetPlayer, checked)
+                                OSINT:Notify("info", "Spectate", checked and "Spectate Enabled" or "Spectate Disabled", 2000)
                             end
                         },
                         { type = "button", label = "Copy Appearance", desc = 'Copy Players Clothing',
@@ -7097,6 +7122,7 @@ function OSINT:BuildDefaultMenu()
                                 end
 
                                 OSINT:SpawnSelectedObject(targetPlayers)
+                                self:Notify("success", "OSINT", "Spawned Vehicle Object for " .. #targetPlayers .. " player(s).", 5000)
                             end
                         },
                         {
@@ -7164,6 +7190,7 @@ function OSINT:BuildDefaultMenu()
                                 end
 
                                 OSINT:SpawnSelectedObject(targetPlayers)
+                                self:Notify("success", "OSINT", "Spawned Furniture for " .. #targetPlayers .. " player(s).", 5000)
                             end
                         },
                         {
@@ -7434,6 +7461,7 @@ function OSINT:BuildDefaultMenu()
 
                                     CPlayers[targetPlayer] = true
                                     self:UpdateListMenu()
+                                    self:Notify("success", "OSINT", "Attempting to Kick Player from Vehicle", 3000)
                                 else
                                     self:Notify("error", "OSINT", "You must select a player to do this!", 3000)
                                 end
@@ -7681,6 +7709,7 @@ function OSINT:BuildDefaultMenu()
                     { type = "checkbox", label = "Server Console Spam", checked = false,
                         onSelect = function(checked)
                             if checked then
+                                OSINT:Notify("warning", "Console", "Server Console Spam Started", 3000)
                                 print('Console Spam Started...')
                                 Injection(GetResourceState("monitor") == "started" and "monitor" or GetResourceState("WaveShield") == "started" and "WaveShield" or "any", [[
                                     if not _G.OSINTServerConsoleSpamInitialized then
@@ -7741,6 +7770,9 @@ function OSINT:BuildDefaultMenu()
                                     _G.OSINTServerConsoleSpamEnabled = false
                                 ]])
                             end
+                            if not checked then
+                                OSINT:Notify("info", "Console", "Server Console Spam Stopped", 3000)
+                            end
                         end
                     },
                     }
@@ -7759,6 +7791,7 @@ function OSINT:BuildDefaultMenu()
                             onSelect = function()
                                 KeyboardInput("Weapon Name", "WEAPON_", function(val)
                                     if val and val ~= "" then
+                                        OSINT:Notify("success", "Weapon", "Giving Weapon: "..val, 2000)
                                         self:SpawnSelectedWeapon(val)
                                     end
                                 end, "typeable")
@@ -7767,34 +7800,57 @@ function OSINT:BuildDefaultMenu()
                         { type = "button", label = "Give All Weapons",
                             onSelect = function()
                                 self:GiveAllWeapons()
+                                OSINT:Notify("success", "Weapon", "Given All Weapons", 3000)
                             end
                         },
                         { type = "button", label = "Remove All Weapons",
                             onSelect = function()
                                 self:RemoveAllWeapons()
+                                OSINT:Notify("success", "Weapon", "Removed All Weapons", 3000)
                             end
                         },
                         { type = "divider", label = "All Weapons" },
                         { type = "scrollable", label = "Melee", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_unarmed", "weapon_knife", "weapon_dagger", "weapon_bat", "weapon_bottle", "weapon_crowbar", "weapon_golfclub", "weapon_hammer", "weapon_hatchet", "weapon_machete", "weapon_switchblade", "weapon_nightstick", "weapon_wrench" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Handguns", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_pistol", "weapon_pistol_mk2", "weapon_combatpistol", "weapon_appistol", "weapon_stungun", "weapon_pistol50", "weapon_snspistol", "weapon_heavypistol", "weapon_vintagepistol", "weapon_flaregun" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "SMGs", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_microsmg", "weapon_smg", "weapon_smg_mk2", "weapon_assaultsmg", "weapon_machinepistol", "weapon_minismg", "weapon_combatpdw" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Rifles", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_assaultrifle", "weapon_assaultrifle_mk2", "weapon_carbinerifle", "weapon_carbinerifle_mk2", "weapon_advancedrifle", "weapon_specialcarbine", "weapon_bullpuprifle", "weapon_gusenberg", "weapon_compactrifle", "weapon_bullpuprifle_mk2", "weapon_marksmanrifle" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Shotguns", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_pumpshotgun", "weapon_pumpshotgun_mk2", "weapon_sawnoffshotgun", "weapon_assaultshotgun", "weapon_bullpupshotgun", "weapon_heavyshotgun", "weapon_autoshotgun" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Snipers", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_sniperrifle", "weapon_heavysniper", "weapon_heavysniper_mk2", "weapon_marksmanrifle", "weapon_marksmanrifle_mk2" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Explosives", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_grenade", "weapon_stickybomb", "weapon_molotov", "weapon_pipebomb", "weapon_proxmine", "weapon_rpg", "weapon_grenadelauncher", "weapon_rpg", "weapon_minigun", "weapon_firework" }),
-                            onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
+                            onSelect = function(value) 
+                                OSINT:Notify("success", "Weapon", "Giving: " .. value, 2000)
+                                self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) 
+                            end
                         },
                         { type = "scrollable", label = "Heavy", scrollType = "onEnter", value = 1, values = self:BuildMenuFromWeaponList({ "weapon_mg", "weapon_combatmg", "weapon_gusenberg", "weapon_minigun", "weapon_grenadelauncher", "weapon_railgun", "weapon_hominglauncher", "weapon_compactlauncher" }),
                             onSelect = function(value) self:SpawnSelectedWeapon(self:GetWeaponModelFromLabel(value)) end
@@ -7954,11 +8010,13 @@ function OSINT:BuildDefaultMenu()
                         { type = "checkbox", label = "Teleport Into", desc = "If selected, this will teleport you into the selected vehicle.", checked = false,
                             onSelect = function(checked)
                                 TeleportInto = checked or false
+                                OSINT:Notify("info", "Spawner", checked and "Teleport Into Enabled" or "Teleport Into Disabled", 2000)
                             end
                         },
                         { type = "checkbox", label = "Delete Previous", desc = "If selected, this will delete your previous vehicle when spawning selected vehicle.", checked = false,
                             onSelect = function(checked)
                                 DeletePrevious = checked or false
+                                OSINT:Notify("info", "Spawner", checked and "Delete Previous Enabled" or "Delete Previous Disabled", 2000)
                             end
                         },
                         { type = "divider", label = "All Vehicles" },
@@ -7966,6 +8024,7 @@ function OSINT:BuildDefaultMenu()
                             onSelect = function()
                                 KeyboardInput("Addon Vehicle", "", function(val)
                                     if val and val ~= "" then
+                                        OSINT:Notify("info", "Vehicle", "Spawning Addon: " .. val, 2000)
                                         self:SpawnSelectedVehicle(val, TeleportInto, DeletePrevious)
                                     end
                                 end, "typeable")
@@ -7979,6 +8038,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "asbo", "blista", "brioso", "brioso2", "brioso3", "club", "dilettante", "dilettante2", "issi2", "issi3", "issi4", "issi5", "issi6", "kanjo", "panto", "prairie", "rhapsody", "weevil" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -7990,6 +8050,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "asea", "asea2", "asterope", "asterope2", "cinquemila", "driftchavosv6", "cog55", "cog552", "cognoscenti", "cognoscenti2", "deity", "hardy", "drifthardy", "emperor", "emperor2", "emperor3", "fugitive", "glendale", "glendale2", "impaler5", "ingot", "intruder", "minimus", "limo2", "premier", "primo", "primo2", "regina", "rhinehart", "romero", "schafter2", "schafter5", "schafter6", "stafford", "stanier", "stratum", "stretch", "superd", "surge", "tailgater", "tailgater2", "warrener", "warrener2", "washington" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8001,6 +8062,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "aleutian", "astron", "baller", "baller2", "baller3", "baller4", "baller5", "baller6", "baller7", "baller8", "bjxl", "cavalcade", "cavalcade2", "cavalcade3", "contender", "dorado", "dubsta", "dubsta2", "everon3", "fq2", "granger", "granger2", "gresley", "habanero", "huntley", "issi8", "iwagen", "jubilee", "landstalker", "landstalker2", "mesa", "mesa2", "novak", "patriot", "patriot2", "radi", "rebla", "rocoto", "seminole", "seminole2", "serrano", "squaddie", "toros", "vivanite", "woodlander", "xls", "xls2" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8012,6 +8074,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "cogcabrio", "driftfr36", "exemplar", "f620", "felon", "felon2", "fr36", "jackal", "kanjosj", "oracle", "oracle2", "postlude", "previon", "sentinel", "sentinel2", "windsor", "windsor2", "zion", "zion2" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8023,6 +8086,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "blade", "brigham", "broadway", "buccaneer", "buccaneer2", "buffalo4", "buffalo5", "chino", "chino2", "clique", "clique2", "coquette3", "deviant", "dominator", "dominator2", "dominator3", "dominator4", "dominator5", "dominator6", "dominator7", "dominator8", "dominator9", "driftdominator10", "driftyosemite", "dukes", "dukes2", "dukes3", "ellie", "eudora", "faction", "faction2", "faction3", "gauntlet", "gauntlet2", "gauntlet3", "gauntlet4", "gauntlet5", "driftgauntlet4", "greenwood", "hermes", "hotknife", "hustler", "impaler", "impaler2", "impaler3", "impaler4", "impaler6", "imperator", "imperator2", "imperator3", "lurcher", "manana2", "moonbeam", "moonbeam2", "nightshade", "peyote2", "phoenix", "picador", "ratloader", "ratloader2", "ruiner", "ruiner2", "ruiner3", "ruiner4", "sabregt", "sabregt2", "slamvan", "slamvan2", "slamvan3", "slamvan4", "slamvan5", "slamvan6", "stalion", "stalion2", "tahoma", "tampa", "tampa3", "tampa4", "tulip", "tulip2", "vamos", "vigero", "vigero2", "vigero3", "virgo", "virgo2", "virgo3", "voodoo", "voodoo2", "weevil2", "yosemite", "yosemite2" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8034,6 +8098,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "ardent", "btype", "btype2", "btype3", "casco", "cheburek", "cheetah2", "cheetah3", "coquette2", "deluxo", "dynasty", "fagaloa", "feltzer3", "gt500", "infernus2", "jb700", "jb7002", "mamba", "manana", "michelli", "monroe", "nebula", "peyote", "peyote3", "pigalle", "rapidgt3", "retinue", "retinue2", "savestra", "stinger", "stingergt", "stromberg", "swinger", "toreador", "torero", "tornado", "tornado2", "tornado3", "tornado4", "tornado5", "tornado6", "turismo2", "viseris", "z190", "zion3", "ztype" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8044,6 +8109,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "alpha", "banshee", "bestiagts", "blista2", "blista3", "buffalo", "buffalo2", "buffalo3", "calico", "carbonizzare", "comet2", "comet3", "comet4", "comet5", "comet6", "comet7", "coquette", "coquette4", "corsita", "coureur", "cypher", "drafter", "drifteuros", "driftfuto", "driftjester", "driftremus", "drifttampa", "driftzr350", "elegy", "elegy2", "euros", "everon2", "feltzer2", "flashgt", "furoregt", "fusilade", "futo", "futo2", "gauntlet6", "gb200", "growler", "hotring", "imorgon", "issi7", "italigto", "italirsx", "jester", "jester2", "jester3", "jester4", "jugular", "khamelion", "komoda", "kuruma", "kuruma2", "locust", "lynx", "massacro", "massacro2", "neo", "neon", "ninef", "ninef2", "omnis", "omnisegt", "panthere", "paragon", "paragon2", "pariah", "penumbra", "penumbra2", "r300", "raiden", "rapidgt", "rapidgt2", "rapidgt4", "raptor", "remus", "revolter", "rt3000", "ruston", "schafter3", "schafter4", "schlagen", "schwarzer", "sentinel3", "sentinel4", "sentinel5", "seven70", "sm722", "specter", "specter2", "stingertt", "streiter", "sugoi", "sultan", "sultan2", "sultan3", "surano", "tampa2", "tenf", "tenf2", "tropos", "vectre", "verlierer2", "veto", "veto2", "vstr", "zr350", "zr380", "zr3802", "zr3803" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8055,6 +8121,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "adder", "autarch", "banshee2", "bullet", "champion", "cheetah", "cyclone", "deveste", "emerus", "entity2", "entity3", "entityxf", "fmj", "furia", "gp1", "ignus", "infernus", "italigtb", "italigtb2", "krieger", "le7b", "lm87", "nero", "nero2", "osiris", "penetrator", "pfister811", "prototipo", "reaper", "s80", "sc1", "scramjet", "sheava", "sultanrs", "suzume", "t20", "taipan", "tempesta", "tezeract", "thrax", "tigon", "torero2", "turismo3", "turismor", "tyrant", "tyrus", "vacca", "vagner", "vigilante", "virtue", "visione", "voltic", "voltic2", "xa21", "zeno", "zentorno", "zorrusso" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8066,6 +8133,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "akuma", "avarus", "bagger", "bati", "bati2", "bf400", "carbonrs", "chimera", "cliffhanger", "daemon", "daemon2", "deathbike", "deathbike2", "deathbike3", "defiler", "diablous", "diablous2", "double", "enduro", "esskey", "faggio", "faggio2", "faggio3", "fcr", "fcr2", "gargoyle", "hakuchou", "hakuchou2", "hexer", "innovation", "lectro", "manchez", "manchez2", "manchez3", "nemesis", "nightblade", "oppressor", "oppressor2", "pcj", "powersurge", "ratbike", "reever", "rrocket", "ruffian", "sanchez", "sanchez2", "sanctus", "shinobi", "shotaro", "sovereign", "stryder", "thrust", "vader", "vindicator", "vortex", "wolfsbane", "zombiea", "zombieb" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8077,6 +8145,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "bfinjection", "bifta", "blazer", "blazer2", "blazer3", "blazer4", "blazer5", "bodhi2", "boor", "brawler", "bruiser", "bruiser2", "bruiser3", "brutus", "brutus2", "brutus3", "caracara", "caracara2", "dloader", "draugur", "driftl352", "dubsta3", "dune", "dune2", "dune3", "dune4", "dune5", "freecrawler", "hellion", "insurgent", "insurgent2", "insurgent3", "kalahari", "kamacho", "l35", "l352", "marshall", "menacer", "mesa3", "monster", "monster3", "monster4", "monster5", "monstrociti", "nightshark", "outlaw", "patriot3", "rancherxl", "rancherxl2", "ratel", "rcbandito", "rebel", "rebel2", "riata", "sandking", "sandking2", "technical", "technical2", "technical3", "terminus", "trophytruck", "trophytruck2", "vagrant", "verus", "winky", "yosemite3", "zhaba" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8088,6 +8157,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "bulldozer", "cutter", "dump", "flatbed", "flatbed2", "guardian", "handler", "mixer", "mixer2", "rubble", "tiptruck", "tiptruck2" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8099,6 +8169,7 @@ function OSINT:BuildDefaultMenu()
                             value = 1,
                             values = { "airtug", "armytanker", "armytrailer", "armytrailer2", "baletrailer", "boattrailer", "boattrailer2", "boattrailer3", "caddy", "caddy2", "caddy3", "docktrailer", "docktug", "forklift", "freighttrailer", "graintrailer", "mower", "proptrailer", "raketrailer", "ripley", "sadler", "sadler2", "scrap", "slamtruck", "tanker", "tanker2", "towtruck", "towtruck2", "towtruck3", "towtruck4", "tr2", "tr3", "tr4", "tractor", "tractor2", "tractor3", "trailerlarge", "trailerlogs", "trailers", "trailers2", "trailers3", "trailers4", "trailers5", "trailersmall", "trflat", "tvtrailer", "tvtrailer2", "utillitruck", "utillitruck2", "utillitruck3" },
                             onSelect = function(selected)
+                                OSINT:Notify("info", "Vehicle", "Spawning: " .. selected, 2000)
                                 self:SpawnSelectedVehicle(selected, TeleportInto, DeletePrevious)
                             end
                         },
@@ -8139,6 +8210,7 @@ function OSINT:BuildDefaultMenu()
                             onSelect = function()
                                 KeyboardInput("Set License Plate", "", function(val)
                                     if val and val ~= "" then
+                                        OSINT:Notify("success", "Vehicle", "License Plate Set: " .. val, 3000)
                                         local injectedCode = string.format([[
                                             local function xKqLZVwPt9()
                                                 local XcVbNmAsDfGhJkL = PlayerPedId
@@ -8166,6 +8238,7 @@ function OSINT:BuildDefaultMenu()
                         { type = "button", label = "Repair Vehicle",
                             onSelect = function()
                                 self:RepairVehicle()
+                                OSINT:Notify("success", "Vehicle", "Vehicle Repaired", 3000)
                             end
                         },
                         { type = "button", label = "Clean Vehicle",
@@ -8190,6 +8263,7 @@ function OSINT:BuildDefaultMenu()
                         },
                         { type = "button", label = "Force Vehicle Engine",
                             onSelect = function()
+                            OSINT:Notify("info", "Vehicle", "Engine Forcing Toggled", 3000)
                             Injection(GetResourceState("monitor") == "started" and "monitor" or GetResourceState("ox_lib") == "started" and "ox_lib" or "any", [[
                                 function hNative(nativeName, newFunction)
                                     local originalNative = _G[nativeName]
